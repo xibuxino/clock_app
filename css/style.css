@@ -100,6 +100,7 @@ body {
 }
 body.extend .main {
   top: -45%;
+  transition: top 0.3s ease-in-out;
 }
 @media (min-width: 992px) {
   body.extend .main {
@@ -119,13 +120,14 @@ body.extend .main .timebox__btn-less {
   display: block;
 }
 body.extend .extension {
-  top: 65%;
+  transition: top 0.3s 0.1s ease-in-out;
   height: 35%;
+  top: 65%;
 }
 @media (min-width: 992px) {
   body.extend .extension {
-    top: 50%;
     height: 50%;
+    top: 50%;
   }
 }
 
@@ -158,7 +160,7 @@ body.extend .extension {
   width: 100%;
   height: 100vh;
   max-width: 1600px;
-  transition: top 0.3s ease;
+  transition: top 0.3s 0.1s ease-in-out;
 }
 
 .quote {
@@ -199,6 +201,9 @@ body.extend .extension {
   }
 }
 
+.timebox {
+  text-transform: uppercase;
+}
 .timebox__data {
   display: flex;
   flex-direction: column;
@@ -341,7 +346,7 @@ body.extend .extension {
   max-width: 1600px;
   top: 100%;
   width: 100%;
-  transition: top 0.3s ease;
+  transition: top 0.3s ease-in-out;
   color: var(--extension-color);
 }
 .extension__bg {
