@@ -104,8 +104,8 @@ const fetchUserIPData = async () => {
 			throw new Error(`Error ${response.status}`);
 		}
 		const data = await response.json();
-        console.log(data.data.location.country.name);
-		return data
+		console.log(data.data.location.country.name);
+		return data;
 	} catch (error) {
 		throw new Error(`Error ${response.status}`);
 	}
@@ -132,7 +132,7 @@ const flow = async () => {
 	try {
 		// ip = await fetchUserIP();
 		// lookup = await fetchLookup(ip);
-        lookup = await fetchUserIPData()
+		lookup = await fetchUserIPData();
 		// timeZone = await fetchTime(
 		// 	lookup.location.latitude,
 		// 	lookup.location.longitude
@@ -216,7 +216,6 @@ const setTheme = () => {
 };
 
 const setTime = (time) => {
-
 	const timePart = time.split('T')[1];
 	const [hours, minutes] = timePart.split(':');
 	const newTime = `${hours}:${minutes}`;
