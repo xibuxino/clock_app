@@ -17,24 +17,20 @@ const DOM = {
 };
 const API_IP_KEY = 'ipb_live_UHWNdMKjfcfYpJ9NmqetMKheXKSxOsHzdAnntCVt';
 const API_IP_URL = `https://api.ipbase.com/v2/info?apikey=${API_IP_KEY}`;
-const API_IPLOOKUP_KEY = 'e0fab67e98df5cbc3085';
-const API_IPLOOKUP_URL = 'https://api.ipapi.is/?q=';
+
 const API_NINJAS_KEY = 'yeH6ouTl51ssbZue2aUfcQ==jWcZBPu7RzPa2TIl';
 const API_NINJAS_QUOTE_URL = 'https://api.api-ninjas.com/v1/quotes';
-const API_NINJAS_TIME_URL = 'https://api.api-ninjas.com/v1/worldtime?';
-const API_TIME_URL = 'https://timeapi.io/api/TimeZone/coordinate?';
 
-let ip = '';
+const API_REQUEST_DELAY = 60 * 60 * 1000;
+
 let lookup = {};
-let timeZone = {};
-let date = { DateTime };
+let date;
 
 async function main() {
 	prepareDOMElements();
 	prepareDOMEvents();
-	console.log(API_NINJAS_KEY);
 	fetchQuote();
-	await flow();
+	await fetchUserIPData();
 	assignData();
 	setTheme();
 	DOM.body.style.visibility = 'visible';
@@ -79,10 +75,10 @@ const fetchQuote = async () => {
 		if (!response.ok) {
 			throw new Error(`Error ${response.status}`);
 		}
-
 		const data = await response.json();
 		newQuote(data);
 	} catch (error) {
+		console.log(error);
 		staticQuote();
 	}
 };
@@ -98,99 +94,33 @@ const staticQuote = () => {
 };
 
 const fetchUserIPData = async () => {
+	const cachedData = localStorage.getItem('ipData');
+	const now = Date.now();
+	if (cachedData) {
+		const parsed = JSON.parse(cachedData);
+		if (now - parsed.timestamp < API_REQUEST_DELAY) {
+			console.log('localStorage data used');
+			lookup = parsed.data;
+			return lookup;
+		}
+	}
+	console.log('new data used');
 	try {
 		const response = await fetch(API_IP_URL);
 		if (!response.ok) {
 			throw new Error(`Error ${response.status}`);
 		}
-		const data = await response.json();
-		console.log(data.data.location.country.name);
-		return data;
+		lookup = await response.json();
+
+		localStorage.setItem(
+			'ipData',
+			JSON.stringify({ data: lookup, timestamp: now })
+		);
+		return lookup;
 	} catch (error) {
-		throw new Error(`Error ${response.status}`);
+		console.error(error);
+		return null;
 	}
-};
-
-// const fetchLookup = async (ip) => {
-// 	try {
-// 		const response = await fetch(
-// 			`${API_IPLOOKUP_URL}${ip}&key=${API_IPLOOKUP_KEY}`
-// 		);
-// 		if (!response.ok) {
-// 			throw new Error(`Error ${response.status}`);
-// 		}
-// 		const data = await response.json();
-// 		console.log(data.location.city);
-// 		return data;
-// 	} catch (error) {
-// 		console.log(`Error`, error);
-// 		throw error;
-// 	}
-// };
-
-const flow = async () => {
-	try {
-		// ip = await fetchUserIP();
-		// lookup = await fetchLookup(ip);
-		lookup = await fetchUserIPData();
-		// timeZone = await fetchTime(
-		// 	lookup.location.latitude,
-		// 	lookup.location.longitude
-		// );
-		date = DateTime.now().setZone(lookup.data.timezone.id).setLocale('en');
-	} catch (error) {
-		console.log(`Error`, error);
-		throw error;
-	}
-};
-
-// const fetchTime = async (lat, lon) => {
-// 	let url = API_NINJAS_TIME_URL + `lat=${lat}&lon=${lon}`;
-// 	try {
-// 		const response = await fetch(url, {
-// 			method: 'GET',
-// 			headers: { 'X-Api-Key': API_NINJAS_KEY },
-// 		});
-// 		if (!response.ok) {
-// 			throw new Error(`Error ${response.status}`);
-// 		}
-// 		const data = await response.json();
-
-// 		return data;
-// 	} catch (error) {
-// 		console.log(`Error`, error);
-// 		throw error;
-// 	}
-// };
-
-// const fetchTime = async (lat, lon) => {
-// 	let url = API_TIME_URL + `latitude=${lat}&longitude=${lon}`;
-// 	try {
-// 		const response = await fetch(url, {
-// 			method: 'GET',
-// 			headers: { 'X-Api-Key': API_NINJAS_KEY },
-// 		});
-// 		if (!response.ok) {
-// 			throw new Error(`Error ${response.status}`);
-// 		}
-// 		const data = await response.json();
-// 		console.log(data);
-// 		return data;
-// 	} catch (error) {
-// 		console.log(`Error`, error);
-// 		throw error;
-// 	}
-// };
-
-const assignData = () => {
-	DOM.cityTxt.textContent = `in ${lookup.data.location.city.name}, ${lookup.data.location.country.name}`;
-	DOM.timezoneTxt.textContent = lookup.data.timezone.id;
-	DOM.shortTimeZone.textContent = date.offsetNameShort;
-	DOM.timeTxt.textContent = setTime(lookup.data.timezone.current_time);
-	DOM.greeting.textContent = setGreeting();
-	DOM.dayOfTheWeek.textContent = date.toFormat('cccc');
-	DOM.dateTxt.textContent = date.toLocaleString(DateTime.DATE_FULL);
-	DOM.weekNumber.textContent = date.weekNumber;
 };
 
 const setGreeting = () => {
@@ -215,10 +145,31 @@ const setTheme = () => {
 	}
 };
 
-const setTime = (time) => {
+const formatTime = (time) => {
 	const timePart = time.split('T')[1];
 	const [hours, minutes] = timePart.split(':');
 	const newTime = `${hours}:${minutes}`;
 	return newTime;
 };
+
+const formatDate = () => {
+	date = DateTime.now().setZone(lookup.data.timezone.id).setLocale('en');
+};
+const assignData = () => {
+	formatDate();
+
+	const city = `in ${lookup.data.location.city.name}, ${lookup.data.location.country.name}`;
+	const timezone = lookup.data.timezone.id;
+	const time = formatTime(lookup.data.timezone.current_time);
+	DOM.cityTxt.textContent = city;
+
+	DOM.timezoneTxt.textContent = timezone;
+	DOM.shortTimeZone.textContent = date.offsetNameShort;
+	DOM.timeTxt.textContent = time;
+	DOM.greeting.textContent = setGreeting();
+	DOM.dayOfTheWeek.textContent = date.toFormat('cccc');
+	DOM.dateTxt.textContent = date.toLocaleString(DateTime.DATE_FULL);
+	DOM.weekNumber.textContent = date.weekNumber;
+};
+
 document.addEventListener('DOMContentLoaded', main);
