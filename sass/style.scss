@@ -8,6 +8,14 @@ $neutral-500: #808080;
 $neutral-800: #303030;
 $neutral-900: #000000;
 
+@keyframes spin {
+	0% {
+		rotate: 0deg;
+	}
+	100% {
+		rotate: 360deg;
+	}
+}
 .theme-day {
 	--bg-image: url('../assets/mobile/bg-image-daytime.jpg');
 	@media (min-width: 768px) {
@@ -124,7 +132,9 @@ body {
 		background: none;
 		border: none;
 		cursor: pointer;
-		transition: rotate 1s ease-in-out;
+		&.rotate {
+			animation: spin 1s linear infinite;
+		}
 	}
 	&__author {
 		@include text-preset-7;
@@ -160,6 +170,7 @@ body {
 
 			.dt-short {
 				@include text-preset-3;
+				display: inline-block;
 				padding-top: $spacing-200;
 			}
 		}

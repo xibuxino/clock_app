@@ -48,6 +48,14 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@keyframes spin {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
 .theme-day {
   --bg-image: url("../assets/mobile/bg-image-daytime.jpg");
   --sun-icon-vis: block;
@@ -183,7 +191,9 @@ body.extend .extension {
   background: none;
   border: none;
   cursor: pointer;
-  transition: rotate 1s ease-in-out;
+}
+.quote__btn.rotate {
+  animation: spin 1s linear infinite;
 }
 .quote__author {
   font-family: "Inter", "sans-serif";
@@ -254,6 +264,7 @@ body.extend .extension {
   font-weight: 300;
   line-height: 73%;
   letter-spacing: 0px;
+  display: inline-block;
   padding-top: 16px;
 }
 @media (min-width: 768px) {

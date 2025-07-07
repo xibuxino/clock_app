@@ -64,8 +64,11 @@ const extendData = () => {
 };
 
 // quote
-
+const quoteBtnLoading = (active) => {
+	DOM.quoteBtn.classList.toggle('rotate', active);
+};
 const fetchQuote = async () => {
+	quoteBtnLoading(true);
 	try {
 		const response = await fetch(API_NINJAS_QUOTE_URL, {
 			method: 'GET',
@@ -80,6 +83,8 @@ const fetchQuote = async () => {
 	} catch (error) {
 		console.log(error);
 		staticQuote();
+	} finally {
+		quoteBtnLoading(false);
 	}
 };
 
