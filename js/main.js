@@ -17,7 +17,7 @@ const DOM = {
 };
 
 const API_IP_URL = 'https://api.ipify.org/?format=json';
-const API_IPLOOKUP_URL = 'http://ip-api.com/json/';
+const API_IPLOOKUP_URL = 'https://ip-api.com/json/';
 const API_NINJAS_KEY = 'yeH6ouTl51ssbZue2aUfcQ==jWcZBPu7RzPa2TIl';
 const API_NINJAS_QUOTE_URL = 'https://api.api-ninjas.com/v1/quotes';
 const API_NINJAS_TIME_URL = 'https://api.api-ninjas.com/v1/worldtime?';
