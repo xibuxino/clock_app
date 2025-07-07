@@ -15,21 +15,24 @@ const DOM = {
 	dateTxt: null,
 	weekNumber: null,
 };
-
-const API_IP_URL = 'https://free.freeipapi.com/api/json';
-const API_IPLOOKUP_URL = 'https://ip-api.com/json/';
+const API_IP_KEY = 'ipb_live_UHWNdMKjfcfYpJ9NmqetMKheXKSxOsHzdAnntCVt';
+const API_IP_URL = `https://api.ipbase.com/v2/info?apikey=${API_IP_KEY}`;
+const API_IPLOOKUP_KEY = 'e0fab67e98df5cbc3085';
+const API_IPLOOKUP_URL = 'https://api.ipapi.is/?q=';
 const API_NINJAS_KEY = 'yeH6ouTl51ssbZue2aUfcQ==jWcZBPu7RzPa2TIl';
 const API_NINJAS_QUOTE_URL = 'https://api.api-ninjas.com/v1/quotes';
 const API_NINJAS_TIME_URL = 'https://api.api-ninjas.com/v1/worldtime?';
+const API_TIME_URL = 'https://timeapi.io/api/TimeZone/coordinate?';
 
 let ip = '';
 let lookup = {};
-let time = {};
+let timeZone = {};
 let date = { DateTime };
 
 async function main() {
 	prepareDOMElements();
 	prepareDOMEvents();
+	console.log(API_NINJAS_KEY);
 	fetchQuote();
 	await flow();
 	assignData();
@@ -101,7 +104,8 @@ const fetchUserIP = async () => {
 			throw new Error(`Error ${response.status}`);
 		}
 		const data = await response.json();
-		return data.ipAddress;
+		console.log(data.data.ip);
+		return data.data.ip;
 	} catch (error) {
 		throw new Error(`Error ${response.status}`);
 	}
@@ -109,11 +113,14 @@ const fetchUserIP = async () => {
 
 const fetchLookup = async (ip) => {
 	try {
-		const response = await fetch(API_IPLOOKUP_URL + ip);
+		const response = await fetch(
+			`${API_IPLOOKUP_URL}${ip}&key=${API_IPLOOKUP_KEY}`
+		);
 		if (!response.ok) {
 			throw new Error(`Error ${response.status}`);
 		}
 		const data = await response.json();
+		console.log(data.location.city);
 		return data;
 	} catch (error) {
 		console.log(`Error`, error);
@@ -124,17 +131,39 @@ const fetchLookup = async (ip) => {
 const flow = async () => {
 	try {
 		ip = await fetchUserIP();
-		lookup = await fetchLookup('2a02:8071:1212:aa0:d914:e794:457d:1212');
-		time = await fetchTime(lookup.lat, lookup.lon);
-		date = DateTime.now().setZone(lookup.timezone).setLocale('en');
+		lookup = await fetchLookup(ip);
+		timeZone = await fetchTime(
+			lookup.location.latitude,
+			lookup.location.longitude
+		);
+		date = DateTime.now().setZone(lookup.location.timezone).setLocale('en');
 	} catch (error) {
 		console.log(`Error`, error);
 		throw error;
 	}
 };
 
+// const fetchTime = async (lat, lon) => {
+// 	let url = API_NINJAS_TIME_URL + `lat=${lat}&lon=${lon}`;
+// 	try {
+// 		const response = await fetch(url, {
+// 			method: 'GET',
+// 			headers: { 'X-Api-Key': API_NINJAS_KEY },
+// 		});
+// 		if (!response.ok) {
+// 			throw new Error(`Error ${response.status}`);
+// 		}
+// 		const data = await response.json();
+
+// 		return data;
+// 	} catch (error) {
+// 		console.log(`Error`, error);
+// 		throw error;
+// 	}
+// };
+
 const fetchTime = async (lat, lon) => {
-	let url = API_NINJAS_TIME_URL + `lat=${lat}&lon=${lon}`;
+	let url = API_TIME_URL + `latitude=${lat}&longitude=${lon}`;
 	try {
 		const response = await fetch(url, {
 			method: 'GET',
@@ -144,6 +173,7 @@ const fetchTime = async (lat, lon) => {
 			throw new Error(`Error ${response.status}`);
 		}
 		const data = await response.json();
+		console.log(data);
 		return data;
 	} catch (error) {
 		console.log(`Error`, error);
@@ -152,10 +182,10 @@ const fetchTime = async (lat, lon) => {
 };
 
 const assignData = () => {
-	DOM.cityTxt.textContent = `in ${lookup.city}, ${lookup.country}`;
-	DOM.timezoneTxt.textContent = lookup.timezone;
+	DOM.cityTxt.textContent = `in ${lookup.location.city}, ${lookup.location.country}`;
+	DOM.timezoneTxt.textContent = lookup.location.timezone;
 	DOM.shortTimeZone.textContent = date.offsetNameShort;
-	DOM.timeTxt.textContent = `${time.hour}:${time.minute}`;
+	DOM.timeTxt.textContent = setTime(timeZone);
 	DOM.greeting.textContent = setGreeting();
 	DOM.dayOfTheWeek.textContent = date.toFormat('cccc');
 	DOM.dateTxt.textContent = date.toLocaleString(DateTime.DATE_FULL);
@@ -182,5 +212,13 @@ const setTheme = () => {
 		DOM.body.classList.add('theme-night');
 		DOM.body.classList.remove('theme-day');
 	}
+};
+
+const setTime = (data) => {
+	const dateTime = data.currentLocalTime;
+	const timePart = dateTime.split('T')[1];
+	const [hours, minutes] = timePart.split(':');
+	const time = `${hours}:${minutes}`;
+	return time;
 };
 document.addEventListener('DOMContentLoaded', main);
