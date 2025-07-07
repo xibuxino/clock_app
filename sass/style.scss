@@ -183,8 +183,7 @@ body {
 		&:hover &-circle {
 			background-color: $neutral-500;
 		}
-		&:focus-visible,
-		&:active {
+		&:focus-visible {
 			outline-offset: $spacing-050;
 			outline: 2px solid $neutral-0;
 		}
@@ -235,11 +234,12 @@ body {
 		left: -100%;
 		width: 200vw;
 		background-color: var(--extension-bg-color);
-		opacity: 0.75;
+		opacity: 0.6;
 		z-index: -2;
 		&--blur {
 			left: -100%;
 			width: 200vw;
+			height: 100%;
 			backdrop-filter: blur(15px);
 			-webkit-backdrop-filter: blur(15px);
 			z-index: -1;
