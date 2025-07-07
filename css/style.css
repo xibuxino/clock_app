@@ -236,6 +236,15 @@ body.extend .extension {
 @media (min-width: 768px) {
   .timebox__data-time .time {
     font-family: "Inter", "sans-serif";
+    font-size: 175px;
+    font-weight: 700;
+    line-height: 73%;
+    letter-spacing: 3.5px;
+  }
+}
+@media (min-width: 992px) {
+  .timebox__data-time .time {
+    font-family: "Inter", "sans-serif";
     font-size: 200px;
     font-weight: 700;
     line-height: 73%;
@@ -347,12 +356,14 @@ body.extend .extension {
   max-width: 1600px;
   top: 100%;
   width: 100%;
-  transition: top 0.3s ease-in-out;
+  height: 100%;
+  transition: top 0.3s ease-in-out, height 0.3s ease-in-out;
   color: var(--extension-color);
 }
 .extension__bg {
   left: -100%;
   width: 200vw;
+  height: 100%;
   background-color: var(--extension-bg-color);
   opacity: 0.6;
   z-index: -2;

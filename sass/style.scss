@@ -70,6 +70,7 @@ body {
 			top: 65%;
 			@media (min-width: 992px) {
 				height: 50%;
+
 				top: 50%;
 			}
 		}
@@ -137,7 +138,6 @@ body {
 }
 
 .timebox {
-	
 	text-transform: uppercase;
 	&__data {
 		display: flex;
@@ -237,11 +237,13 @@ body {
 	max-width: 1600px;
 	top: 100%;
 	width: 100%;
-	transition: top 0.3s ease-in-out;
+	height: 100%;
+	transition: top 0.3s ease-in-out, height 0.3s ease-in-out;
 	color: var(--extension-color);
 	&__bg {
 		left: -100%;
 		width: 200vw;
+		height: 100%;
 		background-color: var(--extension-bg-color);
 		opacity: 0.6;
 		z-index: -2;

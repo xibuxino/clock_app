@@ -10,6 +10,12 @@ $text-1-font-size: 200px;
 $text-1-font-weight: 700;
 $text-1-line-height: 73%;
 $text-1-letter-spacing: 5px;
+// Text-Preset-1-Tablet
+$text-1-font-family-tablet: 'Inter', 'sans-serif';
+$text-1-font-size-tablet: 175px;
+$text-1-font-weight-tablet: 700;
+$text-1-line-height-tablet: 73%;
+$text-1-letter-spacing-tablet: 3.5px;
 // Text-Preset-1-Mobile
 $text-1-font-family-mobile: 'Inter', 'sans-serif';
 $text-1-font-size-mobile: 100px;
@@ -110,6 +116,13 @@ $text-9-letter-spacing-mobile: 2px;
 	line-height: $text-1-line-height-mobile;
 	letter-spacing: $text-1-letter-spacing-mobile;
 	@media (min-width: 768px) {
+		font-family: $text-1-font-family-tablet;
+		font-size: $text-1-font-size-tablet;
+		font-weight: $text-1-font-weight-tablet;
+		line-height: $text-1-line-height-tablet;
+		letter-spacing: $text-1-letter-spacing-tablet;
+	}
+	@media (min-width: 992px) {
 		font-family: $text-1-font-family;
 		font-size: $text-1-font-size;
 		font-weight: $text-1-font-weight;

@@ -11,6 +11,9 @@ const DOM = {
 	shortTimeZone: null,
 	timeTxt: null,
 	greeting: null,
+	dayOfTheWeek: null,
+	dateTxt: null,
+	weekNumber: null,
 };
 
 const API_IP_URL = 'https://api.ipify.org/?format=json';
@@ -22,8 +25,8 @@ const API_NINJAS_TIME_URL = 'https://api.api-ninjas.com/v1/worldtime?';
 let ip = '';
 let lookup = {};
 let time = {};
-let date = '';
-// prepare DOM and restore data
+let date = { DateTime };
+
 async function main() {
 	prepareDOMElements();
 	prepareDOMEvents();
@@ -45,6 +48,9 @@ const prepareDOMElements = () => {
 	DOM.shortTimeZone = document.querySelector('.dt-short');
 	DOM.timeTxt = document.querySelector('.time');
 	DOM.greeting = document.querySelector('.greeting');
+	DOM.dayOfTheWeek = document.querySelector('.week-day');
+	DOM.dateTxt = document.querySelector('.date');
+	DOM.weekNumber = document.querySelector('.week-num');
 };
 
 const prepareDOMEvents = () => {
@@ -120,7 +126,7 @@ const flow = async () => {
 		ip = await fetchUserIP();
 		lookup = await fetchLookup(ip);
 		time = await fetchTime(lookup.lat, lookup.lon);
-		date = DateTime.now().setZone(lookup.timezone);
+		date = DateTime.now().setZone(lookup.timezone).setLocale('en');
 	} catch (error) {
 		console.log(`Error`, error);
 		throw error;
@@ -138,7 +144,6 @@ const fetchTime = async (lat, lon) => {
 			throw new Error(`Error ${response.status}`);
 		}
 		const data = await response.json();
-		console.log(data);
 		return data;
 	} catch (error) {
 		console.log(`Error`, error);
@@ -149,9 +154,12 @@ const fetchTime = async (lat, lon) => {
 const assignData = () => {
 	DOM.cityTxt.textContent = `in ${lookup.city}, ${lookup.country}`;
 	DOM.timezoneTxt.textContent = lookup.timezone;
-	DOM.shortTimeZone.textContent = date.setZone(lookup.timezone).offsetNameShort;
+	DOM.shortTimeZone.textContent = date.offsetNameShort;
 	DOM.timeTxt.textContent = `${time.hour}:${time.minute}`;
 	DOM.greeting.textContent = setGreeting();
+	DOM.dayOfTheWeek.textContent = date.toFormat('cccc');
+	DOM.dateTxt.textContent = date.toLocaleString(DateTime.DATE_FULL);
+	DOM.weekNumber.textContent = date.weekNumber;
 };
 
 const setGreeting = () => {
@@ -169,7 +177,7 @@ const setTheme = () => {
 	let hour = date.hour;
 	if (hour >= 5 && hour < 18) {
 		DOM.body.classList.remove('theme-night');
-		DOM.body.classList.add('theme-night');
+		DOM.body.classList.add('theme-day');
 	} else {
 		DOM.body.classList.add('theme-night');
 		DOM.body.classList.remove('theme-day');
