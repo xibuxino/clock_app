@@ -16,8 +16,8 @@ const DOM = {
 	weekNumber: null,
 };
 
-const API_IP_URL = 'https://api.ipify.org/?format=json';
-const API_IPLOOKUP_URL = 'https://ip-api.com/json/';
+const API_IP_URL = 'https://free.freeipapi.com/api/json';
+const API_IPLOOKUP_URL = 'http://ip-api.com/json/';
 const API_NINJAS_KEY = 'yeH6ouTl51ssbZue2aUfcQ==jWcZBPu7RzPa2TIl';
 const API_NINJAS_QUOTE_URL = 'https://api.api-ninjas.com/v1/quotes';
 const API_NINJAS_TIME_URL = 'https://api.api-ninjas.com/v1/worldtime?';
@@ -101,7 +101,7 @@ const fetchUserIP = async () => {
 			throw new Error(`Error ${response.status}`);
 		}
 		const data = await response.json();
-		return data.ip;
+		return data.ipAddress;
 	} catch (error) {
 		throw new Error(`Error ${response.status}`);
 	}
@@ -124,7 +124,7 @@ const fetchLookup = async (ip) => {
 const flow = async () => {
 	try {
 		ip = await fetchUserIP();
-		lookup = await fetchLookup(ip);
+		lookup = await fetchLookup('2a02:8071:1212:aa0:d914:e794:457d:1212');
 		time = await fetchTime(lookup.lat, lookup.lon);
 		date = DateTime.now().setZone(lookup.timezone).setLocale('en');
 	} catch (error) {
