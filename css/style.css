@@ -93,8 +93,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
   color: #ffffff;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@ body.extend .extension {
   justify-content: space-between;
   top: 0%;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   max-width: 1600px;
   transition: top 0.3s 0.1s ease-in-out;
 }
