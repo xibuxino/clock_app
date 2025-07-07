@@ -213,20 +213,21 @@ const setTheme = () => {
 	}
 };
 
-const formatDate = () => {
-	date = DateTime.now().setZone(lookup.data.timezone.id).setLocale('en');
-};
 const assignData = () => {
-	formatDate();
+	const zone = lookup.data.timezone.id;
+	date = DateTime.now().setZone(lookup.data.timezone.id).setLocale('en');
 	setInterval(() => {
-		date = DateTime.now().setZone(lookup.data.timezone.id).setLocale('en');
+		date = DateTime.now().setZone(zone).setLocale('en');
 		DOM.timeTxt.textContent = date.toFormat('HH:mm');
-	},  1000);
+	}, 1000);
+    	setInterval(() => {
+		date = DateTime.now().setZone(zone).setLocale('en');
+        DOM.dateTxt.textContent = date.toLocaleString(DateTime.DATE_FULL);
+	}, 60*1000);
 	const city = `in ${lookup.data.location.city.name}, ${lookup.data.location.country.name}`;
 	const timezone = lookup.data.timezone.id;
 	const time = date.toFormat('HH:mm');
 	DOM.cityTxt.textContent = city;
-
 	DOM.timezoneTxt.textContent = timezone;
 	DOM.shortTimeZone.textContent = date.offsetNameShort;
 	DOM.timeTxt.textContent = time;
