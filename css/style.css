@@ -181,6 +181,10 @@ body.extend .extension {
   background: none;
   border: none;
   cursor: pointer;
+  transition: rotate 1s ease-in-out;
+}
+.quote__btn:hover {
+  rotate: 360deg;
 }
 .quote__author {
   font-family: "Inter", "sans-serif";

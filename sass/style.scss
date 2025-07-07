@@ -122,6 +122,10 @@ body {
 		background: none;
 		border: none;
 		cursor: pointer;
+		transition: rotate 1s ease-in-out;
+		&:hover {
+			rotate: 360deg;
+		}
 	}
 	&__author {
 		@include text-preset-7;
