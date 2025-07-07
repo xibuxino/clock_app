@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="./assets/favicon-32x32.png" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+			rel="stylesheet" />
+		<link rel="stylesheet" href="./css/style.css" />
+		<title>Clock App</title>
+	</head>
+	<body class="theme-day">
+		<div class="bg bg-image"></div>
+		<div class="bg bg-shadow"></div>
+		<div class="main wrap">
+			<div class="quote">
+				<p class="quote__text">
+					“The science of operations, as derived from mathematics more
+					especially, is a science of itself, and has its own abstract truth and
+					value.”
+				</p>
+				<button class="quote__btn">
+					<img
+						src="./assets/desktop/icon-refresh.svg"
+						alt="Refresh quote button" />
+				</button>
+				<p class="quote__author">Ada Lovelace</p>
+			</div>
+
+			<div class="timebox">
+				<div class="timebox__data">
+					<p class="timebox__data-welcome">
+						<span>
+							<img
+								src="./assets/desktop/icon-sun.svg"
+								alt="Sun icon"
+								class="timebox__icon-sun" />
+							<img
+								src="./assets/desktop/icon-moon.svg"
+								alt="Moon icon"
+								class="timebox__icon-moon"
+						/></span>
+						<span class="text">GOOD MORNING</span>
+					</p>
+					<p class="timebox__data-time">
+						<span class="time">11:37</span><span class="region">BST</span>
+					</p>
+					<p class="timebox__data-location">
+						IN <span class="city">LONDON</span>,
+						<span class="country">UK</span>
+					</p>
+				</div>
+				<button class="timebox__btn">
+					<div class="timebox__btn-more">MORE</div>
+					<div class="timebox__btn-less">LESS</div>
+					<div class="timebox__btn-circle">
+						<img src="./assets/desktop/icon-arrow-down.svg" alt="Arrow down" />
+					</div>
+				</button>
+	
+			</div>
+		</div>
+
+	
+		<div class="extension wrap">
+			<div class="bg extension__bg"></div>
+			<div class="bg extension__bg--blur"></div>
+			<div class="extension__dt">
+				<div class="extension__dt-title">current timezone</div>
+				<div class="extension__dt-data timezone">Europe/London</div>
+				<div class="extension__dt-title">day of the year</div>
+				<div class="extension__dt-data year-day">295</div>
+				<div class="extension__dt-title">day of the week</div>
+				<div class="extension__dt-data week-day">5</div>
+				<div class="extension__dt-title">week number</div>
+				<div class="extension__dt-data week-num">42</div>
+			</div>
+		</div>
+
+
+	</body>
+</html>
