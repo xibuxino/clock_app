@@ -17,7 +17,7 @@ const DOM = {
 };
 const API_IP_KEY = 'ipb_live_UHWNdMKjfcfYpJ9NmqetMKheXKSxOsHzdAnntCVt';
 const API_IP_URL = `https://api.ipbase.com/v2/info?apikey=${API_IP_KEY}`;
-
+// const API_IP_URL = `https://api.ipbase.com/v2/info?apikey=${API_IP_KEY}&ip=`;
 const API_NINJAS_KEY = 'yeH6ouTl51ssbZue2aUfcQ==jWcZBPu7RzPa2TIl';
 const API_NINJAS_QUOTE_URL = 'https://api.api-ninjas.com/v1/quotes';
 
@@ -25,11 +25,13 @@ const API_REQUEST_DELAY = 60 * 60 * 1000;
 
 let lookup = {};
 let date;
-
+let ip;
+// const testIp = '180.228.172.138';
 async function main() {
 	prepareDOMElements();
 	prepareDOMEvents();
 	fetchQuote();
+	// await fetchUserIP();
 	await fetchUserIPData();
 	assignData();
 	setTheme();
@@ -79,6 +81,7 @@ const fetchQuote = async () => {
 			throw new Error(`Error ${response.status}`);
 		}
 		const data = await response.json();
+
 		newQuote(data);
 	} catch (error) {
 		console.log(error);
@@ -98,6 +101,64 @@ const staticQuote = () => {
 	DOM.quoteAuthor.textContent = `Kathy Ireland`;
 };
 
+// const fetchUserIP = async () => {
+// 	const cachedIp = localStorage.getItem('ip');
+// 	const now = Date.now();
+// 	if (cachedIp) {
+// 		const parsed = JSON.parse(cachedIp);
+// 		if (now - parsed.timestamp < API_REQUEST_DELAY) {
+// 			console.log('localStorage ip used');
+// 			ip = parsed.ip;
+// 			return ip;
+// 		}
+// 	}
+// 	console.log('new ip used');
+// 	try {
+// 		const response = await fetch(API_IP_URL);
+// 		if (!response.ok) {
+// 			throw new Error(`Error ${response.status}`);
+// 		}
+// 		const data = await response.json();
+// 		ip = data.ip;
+// 		localStorage.setItem('ip', JSON.stringify({ data: ip, timestamp: now }));
+// 		return ip;
+// 	} catch (error) {
+// 		console.error(error);
+// 		return null;
+// 	}
+// };
+
+// const fetchUserIPData = async () => {
+// 	const cachedData = localStorage.getItem('ipData');
+// 	const now = Date.now();
+// 	if (cachedData) {
+// 		const parsed = JSON.parse(cachedData);
+// 		if (now - parsed.timestamp < API_REQUEST_DELAY) {
+// 			console.log('localStorage data used');
+// 			lookup = parsed.data;
+
+// 			return lookup;
+// 		}
+// 	}
+// 	console.log('new data used');
+// 	try {
+// 		const response = await fetch(API_IP_URL + testIp);
+// 		if (!response.ok) {
+// 			throw new Error(`Error ${response.status}`);
+// 		}
+// 		lookup = await response.json();
+
+// 		localStorage.setItem(
+// 			'ipData',
+// 			JSON.stringify({ data: lookup, timestamp: now })
+// 		);
+// 		return lookup;
+// 	} catch (error) {
+// 		console.error(error);
+// 		return null;
+// 	}
+// };
+
 const fetchUserIPData = async () => {
 	const cachedData = localStorage.getItem('ipData');
 	const now = Date.now();
@@ -106,6 +167,7 @@ const fetchUserIPData = async () => {
 		if (now - parsed.timestamp < API_REQUEST_DELAY) {
 			console.log('localStorage data used');
 			lookup = parsed.data;
+			ip = lookup.data.ip;
 			return lookup;
 		}
 	}
@@ -116,7 +178,7 @@ const fetchUserIPData = async () => {
 			throw new Error(`Error ${response.status}`);
 		}
 		lookup = await response.json();
-
+		ip = lookup.data.ip;
 		localStorage.setItem(
 			'ipData',
 			JSON.stringify({ data: lookup, timestamp: now })
@@ -130,6 +192,7 @@ const fetchUserIPData = async () => {
 
 const setGreeting = () => {
 	let hour = date.hour;
+
 	let text =
 		hour >= 5 && hour < 12
 			? 'Good morning'
@@ -150,22 +213,18 @@ const setTheme = () => {
 	}
 };
 
-const formatTime = (time) => {
-	const timePart = time.split('T')[1];
-	const [hours, minutes] = timePart.split(':');
-	const newTime = `${hours}:${minutes}`;
-	return newTime;
-};
-
 const formatDate = () => {
 	date = DateTime.now().setZone(lookup.data.timezone.id).setLocale('en');
 };
 const assignData = () => {
 	formatDate();
-
+	setInterval(() => {
+		date = DateTime.now().setZone(lookup.data.timezone.id).setLocale('en');
+		DOM.timeTxt.textContent = date.toFormat('HH:mm');
+	},  1000);
 	const city = `in ${lookup.data.location.city.name}, ${lookup.data.location.country.name}`;
 	const timezone = lookup.data.timezone.id;
-	const time = formatTime(lookup.data.timezone.current_time);
+	const time = date.toFormat('HH:mm');
 	DOM.cityTxt.textContent = city;
 
 	DOM.timezoneTxt.textContent = timezone;
