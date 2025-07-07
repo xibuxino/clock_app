@@ -97,46 +97,47 @@ const staticQuote = () => {
 	DOM.quoteAuthor.textContent = `Kathy Ireland`;
 };
 
-const fetchUserIP = async () => {
+const fetchUserIPData = async () => {
 	try {
 		const response = await fetch(API_IP_URL);
 		if (!response.ok) {
 			throw new Error(`Error ${response.status}`);
 		}
 		const data = await response.json();
-		console.log(data.data.ip);
-		return data.data.ip;
+        console.log(data.data.location.country.name);
+		return data
 	} catch (error) {
 		throw new Error(`Error ${response.status}`);
 	}
 };
 
-const fetchLookup = async (ip) => {
-	try {
-		const response = await fetch(
-			`${API_IPLOOKUP_URL}${ip}&key=${API_IPLOOKUP_KEY}`
-		);
-		if (!response.ok) {
-			throw new Error(`Error ${response.status}`);
-		}
-		const data = await response.json();
-		console.log(data.location.city);
-		return data;
-	} catch (error) {
-		console.log(`Error`, error);
-		throw error;
-	}
-};
+// const fetchLookup = async (ip) => {
+// 	try {
+// 		const response = await fetch(
+// 			`${API_IPLOOKUP_URL}${ip}&key=${API_IPLOOKUP_KEY}`
+// 		);
+// 		if (!response.ok) {
+// 			throw new Error(`Error ${response.status}`);
+// 		}
+// 		const data = await response.json();
+// 		console.log(data.location.city);
+// 		return data;
+// 	} catch (error) {
+// 		console.log(`Error`, error);
+// 		throw error;
+// 	}
+// };
 
 const flow = async () => {
 	try {
-		ip = await fetchUserIP();
-		lookup = await fetchLookup(ip);
-		timeZone = await fetchTime(
-			lookup.location.latitude,
-			lookup.location.longitude
-		);
-		date = DateTime.now().setZone(lookup.location.timezone).setLocale('en');
+		// ip = await fetchUserIP();
+		// lookup = await fetchLookup(ip);
+        lookup = await fetchUserIPData()
+		// timeZone = await fetchTime(
+		// 	lookup.location.latitude,
+		// 	lookup.location.longitude
+		// );
+		date = DateTime.now().setZone(lookup.data.timezone.id).setLocale('en');
 	} catch (error) {
 		console.log(`Error`, error);
 		throw error;
@@ -162,30 +163,30 @@ const flow = async () => {
 // 	}
 // };
 
-const fetchTime = async (lat, lon) => {
-	let url = API_TIME_URL + `latitude=${lat}&longitude=${lon}`;
-	try {
-		const response = await fetch(url, {
-			method: 'GET',
-			headers: { 'X-Api-Key': API_NINJAS_KEY },
-		});
-		if (!response.ok) {
-			throw new Error(`Error ${response.status}`);
-		}
-		const data = await response.json();
-		console.log(data);
-		return data;
-	} catch (error) {
-		console.log(`Error`, error);
-		throw error;
-	}
-};
+// const fetchTime = async (lat, lon) => {
+// 	let url = API_TIME_URL + `latitude=${lat}&longitude=${lon}`;
+// 	try {
+// 		const response = await fetch(url, {
+// 			method: 'GET',
+// 			headers: { 'X-Api-Key': API_NINJAS_KEY },
+// 		});
+// 		if (!response.ok) {
+// 			throw new Error(`Error ${response.status}`);
+// 		}
+// 		const data = await response.json();
+// 		console.log(data);
+// 		return data;
+// 	} catch (error) {
+// 		console.log(`Error`, error);
+// 		throw error;
+// 	}
+// };
 
 const assignData = () => {
-	DOM.cityTxt.textContent = `in ${lookup.location.city}, ${lookup.location.country}`;
-	DOM.timezoneTxt.textContent = lookup.location.timezone;
+	DOM.cityTxt.textContent = `in ${lookup.data.location.city.name}, ${lookup.data.location.country.name}`;
+	DOM.timezoneTxt.textContent = lookup.data.timezone.id;
 	DOM.shortTimeZone.textContent = date.offsetNameShort;
-	DOM.timeTxt.textContent = setTime(timeZone);
+	DOM.timeTxt.textContent = setTime(lookup.data.timezone.current_time);
 	DOM.greeting.textContent = setGreeting();
 	DOM.dayOfTheWeek.textContent = date.toFormat('cccc');
 	DOM.dateTxt.textContent = date.toLocaleString(DateTime.DATE_FULL);
@@ -214,11 +215,11 @@ const setTheme = () => {
 	}
 };
 
-const setTime = (data) => {
-	const dateTime = data.currentLocalTime;
-	const timePart = dateTime.split('T')[1];
+const setTime = (time) => {
+
+	const timePart = time.split('T')[1];
 	const [hours, minutes] = timePart.split(':');
-	const time = `${hours}:${minutes}`;
-	return time;
+	const newTime = `${hours}:${minutes}`;
+	return newTime;
 };
 document.addEventListener('DOMContentLoaded', main);
