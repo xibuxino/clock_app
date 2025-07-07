@@ -231,7 +231,7 @@ body.extend .extension {
   font-size: 100px;
   font-weight: 700;
   line-height: 73%;
-  letter-spacing: 2.5px;
+  letter-spacing: -2.5px;
 }
 @media (min-width: 768px) {
   .timebox__data-time .time {
@@ -239,7 +239,7 @@ body.extend .extension {
     font-size: 175px;
     font-weight: 700;
     line-height: 73%;
-    letter-spacing: 3.5px;
+    letter-spacing: -3.5px;
   }
 }
 @media (min-width: 992px) {
@@ -248,7 +248,7 @@ body.extend .extension {
     font-size: 200px;
     font-weight: 700;
     line-height: 73%;
-    letter-spacing: 5px;
+    letter-spacing: -5px;
   }
 }
 .timebox__data-time .dt-short {
