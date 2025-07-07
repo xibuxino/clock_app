@@ -137,6 +137,7 @@ body {
 }
 
 .timebox {
+	
 	text-transform: uppercase;
 	&__data {
 		display: flex;
@@ -144,7 +145,7 @@ body {
 		gap: $spacing-500;
 		&-welcome {
 			display: flex;
-			.text {
+			.greeting {
 				@include text-preset-5;
 				margin-left: $spacing-150;
 				@media (min-width: 768px) {
@@ -159,8 +160,10 @@ body {
 			.time {
 				@include text-preset-1;
 			}
-			.region {
+
+			.dt-short {
 				@include text-preset-3;
+				padding-top: $spacing-200;
 			}
 		}
 		&-location {

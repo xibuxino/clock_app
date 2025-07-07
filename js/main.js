@@ -1,3 +1,5 @@
+import { DateTime } from 'https://cdn.jsdelivr.net/npm/luxon@3.3.0/build/es6/luxon.min.js';
+
 const DOM = {
 	body: null,
 	extendBtn: null,
@@ -5,27 +7,32 @@ const DOM = {
 	quoteAuthor: null,
 	quoteBtn: null,
 	cityTxt: null,
-	countryTxt: null,
 	timezoneTxt: null,
+	shortTimeZone: null,
+	timeTxt: null,
+	greeting: null,
 };
 
 const API_IP_URL = 'https://api.ipify.org/?format=json';
 const API_IPLOOKUP_URL = 'http://ip-api.com/json/';
 const API_NINJAS_KEY = 'yeH6ouTl51ssbZue2aUfcQ==jWcZBPu7RzPa2TIl';
 const API_NINJAS_QUOTE_URL = 'https://api.api-ninjas.com/v1/quotes';
-const API_NINJAS_TIME_URL = 'https://api.api-ninjas.com/v1/worldtime?city=';
+const API_NINJAS_TIME_URL = 'https://api.api-ninjas.com/v1/worldtime?';
 
 let ip = '';
 let lookup = {};
+let time = {};
+let date = '';
 // prepare DOM and restore data
-const main = async () => {
+async function main() {
 	prepareDOMElements();
 	prepareDOMEvents();
 	fetchQuote();
 	await flow();
 	assignData();
-	console.log(lookup);
-};
+	setTheme();
+	DOM.body.style.visibility = 'visible';
+}
 
 const prepareDOMElements = () => {
 	DOM.body = document.body;
@@ -33,9 +40,11 @@ const prepareDOMElements = () => {
 	DOM.quoteText = document.querySelector('.quote__text');
 	DOM.quoteAuthor = document.querySelector('.quote__author');
 	DOM.quoteBtn = document.querySelector('.quote__btn');
-	DOM.cityTxt = document.querySelector('.city');
-	DOM.countryTxt = document.querySelector('.country');
+	DOM.cityTxt = document.querySelector('.timebox__data-location');
 	DOM.timezoneTxt = document.querySelector('.timezone');
+	DOM.shortTimeZone = document.querySelector('.dt-short');
+	DOM.timeTxt = document.querySelector('.time');
+	DOM.greeting = document.querySelector('.greeting');
 };
 
 const prepareDOMEvents = () => {
@@ -110,7 +119,27 @@ const flow = async () => {
 	try {
 		ip = await fetchUserIP();
 		lookup = await fetchLookup(ip);
-		console.log(ip, lookup);
+		time = await fetchTime(lookup.lat, lookup.lon);
+		date = DateTime.now().setZone(lookup.timezone);
+	} catch (error) {
+		console.log(`Error`, error);
+		throw error;
+	}
+};
+
+const fetchTime = async (lat, lon) => {
+	let url = API_NINJAS_TIME_URL + `lat=${lat}&lon=${lon}`;
+	try {
+		const response = await fetch(url, {
+			method: 'GET',
+			headers: { 'X-Api-Key': API_NINJAS_KEY },
+		});
+		if (!response.ok) {
+			throw new Error(`Error ${response.status}`);
+		}
+		const data = await response.json();
+		console.log(data);
+		return data;
 	} catch (error) {
 		console.log(`Error`, error);
 		throw error;
@@ -118,8 +147,32 @@ const flow = async () => {
 };
 
 const assignData = () => {
-	DOM.cityTxt.textContent = lookup.city;
-	DOM.countryTxt.textContent = lookup.countryCode;
+	DOM.cityTxt.textContent = `in ${lookup.city}, ${lookup.country}`;
 	DOM.timezoneTxt.textContent = lookup.timezone;
+	DOM.shortTimeZone.textContent = date.setZone(lookup.timezone).offsetNameShort;
+	DOM.timeTxt.textContent = `${time.hour}:${time.minute}`;
+	DOM.greeting.textContent = setGreeting();
+};
+
+const setGreeting = () => {
+	let hour = date.hour;
+	let text =
+		hour >= 5 && hour < 12
+			? 'Good morning'
+			: hour >= 12 && hour < 18
+			? 'Good afternoon'
+			: 'Good evening';
+	return text;
+};
+
+const setTheme = () => {
+	let hour = date.hour;
+	if (hour >= 5 && hour < 18) {
+		DOM.body.classList.remove('theme-night');
+		DOM.body.classList.add('theme-night');
+	} else {
+		DOM.body.classList.add('theme-night');
+		DOM.body.classList.remove('theme-day');
+	}
 };
 document.addEventListener('DOMContentLoaded', main);

@@ -212,7 +212,7 @@ body.extend .extension {
 .timebox__data-welcome {
   display: flex;
 }
-.timebox__data-welcome .text {
+.timebox__data-welcome .greeting {
   font-family: "Inter", "sans-serif";
   font-size: 20px;
   font-weight: 400;
@@ -221,7 +221,7 @@ body.extend .extension {
   margin-left: 12px;
 }
 @media (min-width: 768px) {
-  .timebox__data-welcome .text::after {
+  .timebox__data-welcome .greeting::after {
     content: ", its currently";
     text-transform: uppercase;
   }
@@ -231,7 +231,7 @@ body.extend .extension {
   font-size: 100px;
   font-weight: 700;
   line-height: 73%;
-  letter-spacing: -2.5px;
+  letter-spacing: 2.5px;
 }
 @media (min-width: 768px) {
   .timebox__data-time .time {
@@ -239,18 +239,19 @@ body.extend .extension {
     font-size: 200px;
     font-weight: 700;
     line-height: 73%;
-    letter-spacing: -5px;
+    letter-spacing: 5px;
   }
 }
-.timebox__data-time .region {
+.timebox__data-time .dt-short {
   font-family: "Inter", "sans-serif";
   font-size: 20px;
   font-weight: 300;
   line-height: 73%;
   letter-spacing: 0px;
+  padding-top: 16px;
 }
 @media (min-width: 768px) {
-  .timebox__data-time .region {
+  .timebox__data-time .dt-short {
     font-family: "Inter", "sans-serif";
     font-size: 40px;
     font-weight: 300;

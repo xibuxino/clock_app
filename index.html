@@ -16,6 +16,11 @@
 			rel="stylesheet" />
 		<link rel="stylesheet" href="./css/style.css" />
 		<title>Clock App</title>
+		<style>
+			body {
+				visibility: hidden;
+			}
+		</style>
 	</head>
 	<body class="theme-day">
 		<div class="bg bg-image"></div>
@@ -44,15 +49,13 @@
 								alt="Moon icon"
 								class="timebox__icon-moon"
 						/></span>
-						<span class="text">GOOD MORNING</span>
+						<span class="greeting"></span>
 					</p>
-					<p class="timebox__data-time">
-						<span class="time">11:37</span><span class="region">BST</span>
-					</p>
-					<p class="timebox__data-location">
-						IN <span class="city">LONDON</span>,
-						<span class="country">UK</span>
-					</p>
+					<div class="timebox__data-time">
+						<span class="time"></span>
+						<span class="dt-short"></span>
+					</div>
+					<p class="timebox__data-location"></p>
 				</div>
 				<button class="timebox__btn">
 					<div class="timebox__btn-more">MORE</div>
@@ -79,6 +82,6 @@
 			</div>
 		</div>
 
-		<script src="./js/main.js"></script>
+		<script type="module" src="./js/main.js"></script>
 	</body>
 </html>
