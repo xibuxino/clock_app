@@ -58,7 +58,7 @@ body {
 			@media (min-width: 992px) {
 				top: -50%;
 			}
-			transition: top 0.3s ease;
+			transition: top 0.3s ease-in-out;
 			.timebox__btn {
 				margin-top: $spacing-600;
 				img {
@@ -73,7 +73,7 @@ body {
 			}
 		}
 		.extension {
-			transition: top 0.3s 0.1s ease;
+			transition: top 0.3s 0.1s ease-in-out;
 			height: 35%;
 			top: 65%;
 			@media (min-width: 992px) {
@@ -87,17 +87,17 @@ body {
 
 .bg {
 	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100dvw;
+	inset: 0;
+	width: 100%;
 	height: 100dvh;
 	background-attachment: fixed;
-	background-position: center;
+	background-position: top center;
 	background-repeat: no-repeat;
 	background-size: cover;
 	&-image {
 		background-image: var(--bg-image);
 		z-index: -1000;
+		transform: scale(1.05);
 	}
 	&-shadow {
 		background-color: rgba(0, 0, 0, 0.3);
@@ -114,7 +114,7 @@ body {
 	width: 100%;
 	height: 100dvh;
 	max-width: 1600px;
-	transition: top 0.3s 0.1s ease;
+	transition: top 0.3s 0.1s ease-in-out;
 }
 
 .quote {
@@ -246,7 +246,7 @@ body {
 	top: 100%;
 	width: 100%;
 	height: 100%;
-	transition: top 0.3s ease, height 0.3s ease;
+	transition: top 0.3s ease-in-out, height 0.3s ease-in-out;
 	color: var(--extension-color);
 	&__bg {
 		left: -100%;
