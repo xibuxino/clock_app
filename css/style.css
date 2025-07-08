@@ -93,7 +93,7 @@ html {
 }
 
 body {
-  font-family: "Inter", "sans-serif";
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 100%;
@@ -108,7 +108,7 @@ body {
 }
 body.extend .main {
   top: -45%;
-  transition: top 0.3s ease-in-out;
+  transition: top 0.3s ease;
 }
 @media (min-width: 992px) {
   body.extend .main {
@@ -128,7 +128,7 @@ body.extend .main .timebox__btn-less {
   display: block;
 }
 body.extend .extension {
-  transition: top 0.3s 0.1s ease-in-out;
+  transition: top 0.3s 0.1s ease;
   height: 35%;
   top: 65%;
 }
@@ -168,7 +168,7 @@ body.extend .extension {
   width: 100%;
   height: 100dvh;
   max-width: 1600px;
-  transition: top 0.3s 0.1s ease-in-out;
+  transition: top 0.3s 0.1s ease;
 }
 
 .quote {
@@ -178,7 +178,7 @@ body.extend .extension {
   gap: 12px;
 }
 .quote__text {
-  font-family: "Inter", "sans-serif";
+  font-family: "Inter", sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 150%;
@@ -196,7 +196,7 @@ body.extend .extension {
   animation: spin 1s linear infinite;
 }
 .quote__author {
-  font-family: "Inter", "sans-serif";
+  font-family: "Inter", sans-serif;
   font-size: 18px;
   font-weight: 700;
   line-height: 150%;
@@ -220,7 +220,7 @@ body.extend .extension {
   display: flex;
 }
 .timebox__data-welcome .greeting {
-  font-family: "Inter", "sans-serif";
+  font-family: "Inter", sans-serif;
   font-size: 20px;
   font-weight: 400;
   line-height: 110%;
@@ -234,7 +234,7 @@ body.extend .extension {
   }
 }
 .timebox__data-time .time {
-  font-family: "Inter", "sans-serif";
+  font-family: "Inter", sans-serif;
   font-size: 100px;
   font-weight: 700;
   line-height: 73%;
@@ -242,7 +242,7 @@ body.extend .extension {
 }
 @media (min-width: 768px) {
   .timebox__data-time .time {
-    font-family: "Inter", "sans-serif";
+    font-family: "Inter", sans-serif;
     font-size: 175px;
     font-weight: 700;
     line-height: 73%;
@@ -251,7 +251,7 @@ body.extend .extension {
 }
 @media (min-width: 992px) {
   .timebox__data-time .time {
-    font-family: "Inter", "sans-serif";
+    font-family: "Inter", sans-serif;
     font-size: 200px;
     font-weight: 700;
     line-height: 73%;
@@ -259,7 +259,7 @@ body.extend .extension {
   }
 }
 .timebox__data-time .dt-short {
-  font-family: "Inter", "sans-serif";
+  font-family: "Inter", sans-serif;
   font-size: 20px;
   font-weight: 300;
   line-height: 73%;
@@ -269,7 +269,7 @@ body.extend .extension {
 }
 @media (min-width: 768px) {
   .timebox__data-time .dt-short {
-    font-family: "Inter", "sans-serif";
+    font-family: "Inter", sans-serif;
     font-size: 40px;
     font-weight: 300;
     line-height: 73%;
@@ -277,7 +277,7 @@ body.extend .extension {
   }
 }
 .timebox__data-location {
-  font-family: "Inter", "sans-serif";
+  font-family: "Inter", sans-serif;
   font-size: 15px;
   font-weight: 700;
   line-height: 110%;
@@ -285,7 +285,7 @@ body.extend .extension {
 }
 @media (min-width: 768px) {
   .timebox__data-location {
-    font-family: "Inter", "sans-serif";
+    font-family: "Inter", sans-serif;
     font-size: 24px;
     font-weight: 700;
     line-height: 110%;
@@ -299,7 +299,7 @@ body.extend .extension {
   display: var(--moon-icon-vis);
 }
 .timebox__btn {
-  font-family: "Inter", "sans-serif";
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   font-weight: 700;
   line-height: 140%;
@@ -365,7 +365,7 @@ body.extend .extension {
   top: 100%;
   width: 100%;
   height: 100%;
-  transition: top 0.3s ease-in-out, height 0.3s ease-in-out;
+  transition: top 0.3s ease, height 0.3s ease;
   color: var(--extension-color);
 }
 .extension__bg {
@@ -388,7 +388,7 @@ body.extend .extension {
   position: relative;
   display: grid;
   grid-template-columns: 50% auto;
-  grid-auto-flow: rows;
+  grid-auto-flow: row;
   gap: 16px;
   align-items: center;
 }
@@ -412,7 +412,7 @@ body.extend .extension {
   }
 }
 .extension__dt-title {
-  font-family: "Inter", "sans-serif";
+  font-family: "Inter", sans-serif;
   font-size: 10px;
   font-weight: 400;
   line-height: 150%;
@@ -421,7 +421,7 @@ body.extend .extension {
 }
 @media (min-width: 768px) {
   .extension__dt-title {
-    font-family: "Inter", "sans-serif";
+    font-family: "Inter", sans-serif;
     font-size: 15px;
     font-weight: 400;
     line-height: 150%;
@@ -429,7 +429,7 @@ body.extend .extension {
   }
 }
 .extension__dt-data {
-  font-family: "Inter", "sans-serif";
+  font-family: "Inter", sans-serif;
   font-size: 20px;
   font-weight: 700;
   line-height: 120%;
@@ -438,7 +438,7 @@ body.extend .extension {
 }
 @media (min-width: 768px) {
   .extension__dt-data {
-    font-family: "Inter", "sans-serif";
+    font-family: "Inter", sans-serif;
     font-size: 40px;
     font-weight: 700;
     line-height: 120%;
@@ -447,7 +447,7 @@ body.extend .extension {
 }
 @media (min-width: 992px) {
   .extension__dt-data {
-    font-family: "Inter", "sans-serif";
+    font-family: "Inter", sans-serif;
     font-size: 56px;
     font-weight: 700;
     line-height: 120%;

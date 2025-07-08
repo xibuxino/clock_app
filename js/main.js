@@ -220,10 +220,10 @@ const assignData = () => {
 		date = DateTime.now().setZone(zone).setLocale('en');
 		DOM.timeTxt.textContent = date.toFormat('HH:mm');
 	}, 1000);
-    	setInterval(() => {
+	setInterval(() => {
 		date = DateTime.now().setZone(zone).setLocale('en');
-        DOM.dateTxt.textContent = date.toLocaleString(DateTime.DATE_FULL);
-	}, 60*1000);
+		DOM.dateTxt.textContent = date.toLocaleString(DateTime.DATE_FULL);
+	}, 60 * 1000);
 	const city = `in ${lookup.data.location.city.name}, ${lookup.data.location.country.name}`;
 	const timezone = lookup.data.timezone.id;
 	const time = date.toFormat('HH:mm');
